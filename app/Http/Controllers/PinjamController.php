@@ -11,8 +11,11 @@ class PinjamController extends Controller
     public function index(Request $request)
     {
         $rowPerPage = request()->input('row', 5);
-        $pinjams = Pinjam::with(['user', 'barang'])->paginate(5);
-        $totalRows = Pinjam::count();
+        $pinjams = Pinjam::with(['user', 'barang'])
+                    ->where('status', 'pending')
+                    ->paginate($rowPerPage);
+                    
+        $totalRows = Pinjam::where('status', 'pending')->count();
         return view('pinjam.index', compact('pinjams', 'totalRows'));
     }
 
@@ -50,7 +53,6 @@ class PinjamController extends Controller
 
         return redirect()->route('pinjam.index')->with('success', 'Pinjaman disetujui');
     }
-
 
     public function reject(Request $request, $id)
     {

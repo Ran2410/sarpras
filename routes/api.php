@@ -20,6 +20,11 @@ use App\Http\Controllers\Api\ApiPinjamController;
 //Login Route
 Route::post('/login', [AuthController::class, 'loginApi']);
 
+Route::get('/barangs', [ApiBarangController::class, 'index']);
+
+Route::get('/pinjams', [ApiPinjamController::class, 'index']);
+
+
 Route::middleware('auth:sanctum')->group(function () {
     // Logout Route
     Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
@@ -32,20 +37,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/kategoris/{id}', [ApiKategoriController::class, 'destroy']);
 
     // Barang Routes
-    Route::get('/barangs', [ApiBarangController::class, 'index']);
-    Route::get('/barangs/{id}', [ApiBarangController::class, 'show']);
     Route::post('/barangs', [ApiBarangController::class, 'store']);
     Route::put('/barangs/{id}', [ApiBarangController::class, 'update']);
     Route::delete('/barangs/{id}', [ApiBarangController::class, 'destroy']);
 
     // Pinjam Routes
-    Route::get('/pinjams', [ApiPinjamController::class, 'index']);
-    Route::put('/pinjams', [ApiPinjamController::class, 'store']);
+    Route::post('/pinjams', [ApiPinjamController::class, 'store']);
     Route::put('/pinjams/approve/{id}', [ApiPinjamController::class, 'approve']);
     Route::put('/pinjams/reject/{id}', [ApiPinjamController::class, 'reject']);
 
-    // Kembali Routes
+   // Kembali Routes
     Route::get('/kembalis', [ApiKembaliController::class, 'index']);
-    Route::post('/kembalis/{id}', [ApiKembaliController::class, 'barangKembali']);
+    Route::post('/kembalis', [ApiKembaliController::class, 'store']); // Ubah dari '/kembalis/{id}'
+    Route::post('/kembalis/{pinjamId}/kembalikan', [ApiKembaliController::class, 'barangKembali']); // Jika butuh ID pinjam
     Route::put('/kembalis/approve/{id}', [ApiKembaliController::class, 'approve']);
 });

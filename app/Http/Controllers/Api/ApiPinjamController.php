@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\Barang;
 use App\Models\Pinjam;
@@ -19,12 +20,18 @@ class ApiPinjamController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'barang_id' => 'required|exists:barangs,id',
+            'barang_id' => 'required',
             'jumlah_pinjam' => 'required|integer|min:1',
             'jatoh_tempo' => 'required|date',
         ]);
 
-        $barang = Barang::findOrFail($request->barang_id);
+        $barang = Barang::find($request->barang_id);
+        if (!$barang) {
+            return response()->json([
+                'message' => 'Barang tidak tersedia',
+                'status' => false,
+            ], 400);
+        }
 
         if ($barang->stok_barang < $request->jumlah_pinjam) {
             return response()->json([
@@ -33,10 +40,7 @@ class ApiPinjamController extends Controller
             ], 400);
         }
 
-        $approved_at = null;
-        if ($request->has('approved_at')) {
-            $approved_at = $request->input('approved_at');
-        }
+        $approved_at = $request->input('approved_at', null);
 
         $pinjam = Pinjam::create([
             'user_id' => auth()->user()->id,
@@ -48,12 +52,15 @@ class ApiPinjamController extends Controller
             'approved_by' => auth()->user()->id,
         ]);
 
+        Log::info('Pinjam created', ['pinjam' => $pinjam]);
+
         return response()->json([
             'message' => 'Berhasil meminjam barang',
             'status' => 'success',
             'data' => $pinjam,
         ], 201);
     }
+
 
 
     public function approve(Request $request, $id)
@@ -83,7 +90,7 @@ class ApiPinjamController extends Controller
             'status' => 'approved',
             'approved_at' => now(),
             'approved_by' => auth()->user()->id,
-        ]);        
+        ]);
 
         return response()->json([
             'message' => 'Pinjaman disetujui',

@@ -21,82 +21,124 @@
                 <p class="text-gray-600">Welcome back! Here's what's happening today.</p>
             </div>
 
-            <!-- Stats Cards -->
+            <!-- Stats Cards - Updated Design -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <!-- Users Card -->
-                <div class="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+                <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-6 hover:shadow-md transition-all">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-gray-500 font-medium">Total Users</p>
                             <h3 class="text-3xl font-bold text-gray-800 mt-2">{{ $userCount }}</h3>
                         </div>
-                        <div class="bg-blue-100 p-3 rounded-full">
-                            <i class="fas fa-users text-blue-500 text-xl"></i>
+                        <div class="bg-gray-100 p-3 rounded-full">
+                            <i class="fas fa-users text-gray-600 text-xl"></i>
                         </div>
                     </div>
-                    <a href="{{ route('user.index') }}" class="mt-4 inline-flex items-center text-blue-500 hover:text-blue-700">
+                    <a href="{{ route('user.index') }}" class="mt-4 inline-flex items-center text-gray-600 hover:text-gray-800">
                         View details
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>
 
                 <!-- Categories Card -->
-                <div class="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+                <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-6 hover:shadow-md transition-all">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-gray-500 font-medium">Kategori</p>
                             <h3 class="text-3xl font-bold text-gray-800 mt-2">{{ $kategoriCount }}</h3>
                         </div>
-                        <div class="bg-green-100 p-3 rounded-full">
-                            <i class="fas fa-tags text-green-500 text-xl"></i>
+                        <div class="bg-gray-100 p-3 rounded-full">
+                            <i class="fas fa-tags text-gray-600 text-xl"></i>
                         </div>
                     </div>
-                    <a href="{{ route('kategori.index') }}" class="mt-4 inline-flex items-center text-blue-500 hover:text-blue-700">
+                    <a href="{{ route('kategori.index') }}" class="mt-4 inline-flex items-center text-gray-600 hover:text-gray-800">
                         View details
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>
 
                 <!-- Products Card -->
-                <div class="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+                <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-6 hover:shadow-md transition-all">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-gray-500 font-medium">Barang</p>
                             <h3 class="text-3xl font-bold text-gray-800 mt-2">{{ $barangCount }}</h3>
                         </div>
-                        <div class="bg-purple-100 p-3 rounded-full">
-                            <i class="fas fa-boxes text-purple-500 text-xl"></i>
+                        <div class="bg-gray-100 p-3 rounded-full">
+                            <i class="fas fa-boxes text-gray-600 text-xl"></i>
                         </div>
                     </div>
-                    <a href="{{ route('barang.index') }}" class="mt-4 inline-flex items-center text-blue-500 hover:text-blue-700">
+                    <a href="{{ route('barang.index') }}" class="mt-4 inline-flex items-center text-gray-600 hover:text-gray-800">
                         View details
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>
 
                 <!-- Borrowing Card -->
-                <div class="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+                <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-6 hover:shadow-md transition-all">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-gray-500 font-medium">Peminjaman</p>
                             <h3 class="text-3xl font-bold text-gray-800 mt-2">{{ $pinjamCount }}</h3>
                         </div>
-                        <div class="bg-yellow-100 p-3 rounded-full">
-                            <i class="fas fa-exchange-alt text-yellow-500 text-xl"></i>
+                        <div class="bg-gray-100 p-3 rounded-full">
+                            <i class="fas fa-exchange-alt text-gray-600 text-xl"></i>
                         </div>
                     </div>
-                    <a href="{{ route('pinjam.index') }}" class="mt-4 inline-flex items-center text-blue-500 hover:text-blue-700">
+                    <a href="{{ route('pinjam.index') }}" class="mt-4 inline-flex items-center text-gray-600 hover:text-gray-800">
                         View details
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>
             </div>
 
-            <!-- Additional Content Section -->
-            <div class="bg-white rounded-lg shadow p-6">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Recent Activity</h2>
-                <p class="text-gray-600">Your recent activities will appear here.</p>
-                <!-- You can add recent activity items here -->
+            <!-- Recent Activity Section - Updated Design -->
+            <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-gray-800">Recent Activity - Peminjaman</h2>
+                    @if(!$recentPinjams->isEmpty())
+                    <a href="{{ route('pinjam.index') }}" class="text-sm text-gray-600 hover:text-gray-800">View All</a>
+                    @endif
+                </div>
+
+                @if($recentPinjams->isEmpty())
+                <p class="text-gray-600">Tidak ada aktivitas peminjaman terbaru.</p>
+                @else
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama User</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Barang</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waktu</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @foreach($recentPinjams as $pinjam)
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-gray-800">{{ $pinjam->user->name ?? 'Unknown User' }}</td>
+                                <td class="px-4 py-3 text-sm text-gray-800">{{ $pinjam->barang->nama_barang ?? 'Barang' }}</td>
+                                <td class="px-4 py-3 text-sm">
+                                    @if($pinjam->status == 'approved')
+                                    <span class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full border border-gray-300">Sedang Dipinjam</span>
+                                    @elseif($pinjam->status == 'returned')
+                                    <span class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full border border-gray-300">Dikembalikan</span>
+                                    @elseif($pinjam->status == 'pending')
+                                    <span class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full border border-gray-300">Menunggu</span>
+                                    @elseif($pinjam->status == 'rejected')
+                                    <span class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full border border-gray-300">Ditolak</span>
+                                    @else
+                                    <span class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full border border-gray-300">Unknown</span>
+                                    @endif
+                                </td>
+                                <td class="px-4 py-3 text-sm text-gray-600">{{ $pinjam->updated_at->format('d M Y') }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @endif
             </div>
         </div>
     </div>

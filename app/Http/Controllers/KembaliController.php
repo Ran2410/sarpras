@@ -15,8 +15,12 @@ class KembaliController extends Controller
     {
         $rowPerPage = request()->input('row', 5);
 
-        $kembalis = Kembali::with(['pinjam.user', 'pinjam.barang'])->paginate(5);
-        $totalRows = Kembali::count();
+        // Only show pending returns
+        $kembalis = Kembali::with(['pinjam.user', 'pinjam.barang'])
+                      ->where('status', false)
+                      ->paginate($rowPerPage);
+                      
+        $totalRows = Kembali::where('status', false)->count();
 
         return view('kembali.index', compact('kembalis', 'totalRows', 'rowPerPage'));
     }
@@ -24,26 +28,19 @@ class KembaliController extends Controller
     public function show($id)
     {
         $kembali = Kembali::with(['pinjam.user', 'pinjam.barang'])->findOrFail($id);
-
         return view('kembali.show', compact('kembali'));
     }
 
     public function approve(Request $request, $id)
     {
         if (!Auth::check() || Auth::user()->role !== 'admin') {
-            return response()->json([
-                'message' => 'Hanya admin yang dapat menyetujui pengembalian',
-                'success' => false
-            ], 403);
+            return redirect()->route('kembali.index')->with('error', 'Hanya admin yang dapat menyetujui pengembalian');
         }
 
         $kembali = Kembali::findOrFail($id);
 
         if ($kembali->status === true) {
-            return response()->json([
-                'message' => 'Pengembalian sudah disetujui sebelumnya oleh: ' . ($kembali->approved_by ? User::find($kembali->approved_by)->name : 'Admin'),
-                'current_status' => 'approved'
-            ], 400);
+            return redirect()->route('kembali.index')->with('error', 'Pengembalian sudah disetujui sebelumnya');
         }
 
         DB::transaction(function () use ($kembali) {

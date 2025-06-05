@@ -8,6 +8,9 @@
     use App\Http\Controllers\PinjamController;
     use App\Http\Controllers\KembaliController;
     use App\Http\Controllers\DashboardController;
+    use App\Http\Controllers\LaporanBarangController;
+    use App\Http\Controllers\LaporanPinjamController;
+    use App\Http\Controllers\LaporanKembaliController;
 
 
     Route::get('/', function () {
@@ -75,4 +78,22 @@
         Route::post('/kembali/{id}/approve', [KembaliController::class, 'approve'])
             ->middleware('admin')
             ->name('kembali.approve');
+    });
+
+    // Laporan Barang
+    Route::prefix('laporan-barang')->group(function() {
+        Route::get('/', [LaporanBarangController::class, 'index'])->name('laporan-barang.index');
+        Route::get('/export', [LaporanBarangController::class, 'export'])->name('laporan-barang.export');
+    });
+
+    // Laporan Pinjam
+    Route::prefix('laporan-pinjam')->group(function() {
+        Route::get('/', [LaporanPinjamController::class, 'index'])->name('laporan-pinjam.index');
+        Route::get('/export', [LaporanPinjamController::class, 'export'])->name('laporan-pinjam.export');
+    });
+
+    // Laporan Kembali
+    Route::prefix('laporan-kembali')->group(function() {
+        Route::get('/', [LaporankembaliController::class, 'index'])->name('laporan-kembali.index');
+        Route::get('/export', [LaporanKembaliController::class, 'export'])->name('laporan-kembali.export');
     });

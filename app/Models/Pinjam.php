@@ -38,4 +38,6 @@ class Pinjam extends Model
     {
         return $this->hasMany(Kembali::class);
     }
+
+    
 }

@@ -19,6 +19,38 @@ class ApiKembaliController extends Controller
         return response()->json($kembalis);
     }
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'pinjam_id' => 'required|exists:pinjams,id',
+            'gambar_barang' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'deskripsi' => 'required|string', // Sesuaikan dengan input Flutter
+        ]);
+
+        $pinjam = Pinjam::where('id', $request->pinjam_id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        if ($pinjam->status !== 'approved') {
+            return response()->json(['message' => 'Pinjaman belum disetujui'], 400);
+        }
+
+        $imagePath = $request->file('gambar_barang')->store('images/barang_kembali', 'public');
+
+        $kembali = Kembali::create([
+            'pinjam_id' => $request->pinjam_id,
+            'jumlah_kembali' => $pinjam->jumlah_pinjam,
+            'gambar_barang' => $imagePath,
+            'deskripsi' => $request->deskripsi, // Pastikan nama kolom di database sama
+            'status' => false,
+        ]);
+
+        return response()->json([
+            'message' => 'Pengembalian berhasil diajukan',
+            'data' => $kembali,
+        ], 201);
+    }
+
     public function barangKembali(Request $request, $id)
     {
         $request->validate([
@@ -42,7 +74,7 @@ class ApiKembaliController extends Controller
             'gambar_barang' => $imagePath,
             'deskripsi' => $request->deskripsi,
             'status' => false,
-            'handled_by' => auth()->user()->id,
+            'handled_by' => auth()->id(),
         ]);
 
         return response()->json([
