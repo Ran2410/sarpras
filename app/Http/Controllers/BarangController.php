@@ -9,11 +9,12 @@ use Illuminate\Support\Facades\Storage;
 
 class BarangController extends Controller
 {
-    public function index(Request $request) { 
+    public function index(Request $request)
+    {
         $rowPerPage = $request->input('row', 5);
         $barangs = Barang::with('kategori')->paginate($rowPerPage);
-        $kategoris = Kategori::all();   
-        $totalRows = Barang::count();     
+        $kategoris = Kategori::all();
+        $totalRows = Barang::count();
 
         return view('barang.index', [
             'barangs' => $barangs,
@@ -22,8 +23,9 @@ class BarangController extends Controller
             'rowPerPage' => $rowPerPage,
         ])->with('i', ($request->input('page', 1) - 1) * $rowPerPage);
     }
-    
-    public function create(Request $request) {
+
+    public function store(Request $request)
+    {
         $request->validate([
             'nama_barang' => 'required|string|max:255',
             'stok_barang' => 'required|integer',
@@ -47,7 +49,8 @@ class BarangController extends Controller
         return redirect()->route('barang.index')->with('success', 'Barang created successfully.');
     }
 
-    public function update(Request $request) {
+    public function update(Request $request)
+    {
         $request->validate([
             'nama_barang' => 'required|string|max:255',
             'stok_barang' => 'required|integer',
@@ -74,17 +77,20 @@ class BarangController extends Controller
 
         return redirect()->route('barang.index')->with('success', 'Barang updated successfully.');
     }
-
-    public function edit($id) {
-        $barangs = Barang::findOrFail($id);
-        $kategoris = Kategori::all();
+    public function edit($id)
+    {
+        $barang = Barang::with('kategori')->findOrFail($id); 
         return response()->json([
-            'barang' => $barangs,
-            'kategoris' => $kategoris
+            'id' => $barang->id,
+            'nama_barang' => $barang->nama_barang,
+            'stok_barang' => $barang->stok_barang,
+            'kategori_id' => $barang->kategori_id,
+            'image_barang' => $barang->image_barang,
         ]);
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $barangs = Barang::findOrFail($id);
 
         if ($barangs->image_barang) {

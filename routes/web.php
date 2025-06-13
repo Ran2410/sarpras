@@ -44,16 +44,17 @@
     // Kategori Management
     Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
-        Route::post('/kategori', [KategoriController::class, 'create'])->name('kategori.store');
+        Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store');
         Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
         Route::delete('/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
         Route::get('/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
     });
 
+
     // Barang Management
     Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
-        Route::post('/barang', [BarangController::class, 'create'])->name('barang.store');
+        Route::post('/barang', [BarangController::class, 'store'])->name('barang.store');
         Route::put('/barang/{id}', [BarangController::class, 'update'])->name('barang.update');
         Route::delete('/barang/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
         Route::get('/barang/{id}/edit', [BarangController::class, 'edit'])->name('barang.edit');
@@ -81,19 +82,19 @@
     });
 
     // Laporan Barang
-    Route::prefix('laporan-barang')->group(function() {
+    Route::prefix('laporan-barang')->group(function () {
         Route::get('/', [LaporanBarangController::class, 'index'])->name('laporan-barang.index');
         Route::get('/export', [LaporanBarangController::class, 'export'])->name('laporan-barang.export');
     });
 
     // Laporan Pinjam
-    Route::prefix('laporan-pinjam')->group(function() {
+    Route::prefix('laporan-pinjam')->group(function () {
         Route::get('/', [LaporanPinjamController::class, 'index'])->name('laporan-pinjam.index');
         Route::get('/export', [LaporanPinjamController::class, 'export'])->name('laporan-pinjam.export');
     });
 
     // Laporan Kembali
-    Route::prefix('laporan-kembali')->group(function() {
+    Route::prefix('laporan-kembali')->group(function () {
         Route::get('/', [LaporankembaliController::class, 'index'])->name('laporan-kembali.index');
         Route::get('/export', [LaporanKembaliController::class, 'export'])->name('laporan-kembali.export');
     });

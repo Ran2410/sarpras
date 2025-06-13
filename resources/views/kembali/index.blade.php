@@ -24,8 +24,8 @@
             <!-- Header -->
             <div class="flex justify-between items-center mb-8">
                 <h1 class="text-2xl font-medium text-gray-800 flex items-center">
-                    <i class="fa-solid fa-box-return text-gray-600 mr-3"></i>
-                    Management Pengenbalian
+                    <i class="fa-solid fa-box text-gray-600 mr-3"></i>
+                    Management Pengembalian
                 </h1>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -39,9 +39,9 @@
 
             <!-- Success Alert -->
             @if(session('success'))
-            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded shadow-sm" role="alert">
+            <div class="bg-gray-100 border-l-4 border-gray-500 text-gray-700 p-4 mb-6 rounded shadow-sm" role="alert">
                 <div class="flex items-center">
-                    <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                    <i class="fas fa-check-circle text-gray-500 mr-3"></i>
                     <div>
                         <p class="font-medium">Success</p>
                         <p>{{ session('success') }}</p>
@@ -118,7 +118,7 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <form action="{{ route('kembali.approve', $kembali->id) }}" method="POST" class="inline">
                                         @csrf
-                                        <button type="submit" class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-1.5 px-3 rounded-md transition duration-200 border border-green-200">
+                                        <button type="submit" class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-1.5 px-3 rounded-md transition duration-200 border border-gray-200">
                                             Approve
                                         </button>
                                     </form>

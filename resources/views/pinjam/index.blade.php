@@ -34,9 +34,9 @@
 
             <!-- Success Alert -->
             @if (session('success'))
-            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded shadow-sm" role="alert">
+            <div class="bg-gray-100 border-l-4 border-gray-500 text-gray-700 p-4 mb-6 rounded shadow-sm" role="alert">
                 <div class="flex items-center">
-                    <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                    <i class="fas fa-check-circle text-gray-500 mr-3"></i>
                     <div>
                         <p class="font-medium">Success</p>
                         <p>{{ session('success') }}</p>

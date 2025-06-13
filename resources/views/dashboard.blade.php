@@ -18,10 +18,10 @@
         <div class="flex-1 p-8">
             <div class="mb-8">
                 <h1 class="text-3xl font-bold text-gray-800">Dashboard Overview</h1>
-                <p class="text-gray-600">Welcome back! Here's what's happening today.</p>
+                <p class="text-gray-600">Selamat datang kembali!</p>
             </div>
 
-            <!-- Stats Cards - Updated Design -->
+            <!-- Stats Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <!-- Users Card -->
                 <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-6 hover:shadow-md transition-all">
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <a href="{{ route('user.index') }}" class="mt-4 inline-flex items-center text-gray-600 hover:text-gray-800">
-                        View details
+                        Tampilan Lengkap
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                     <a href="{{ route('kategori.index') }}" class="mt-4 inline-flex items-center text-gray-600 hover:text-gray-800">
-                        View details
+                        Tampilan Lengkap
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>
@@ -69,7 +69,7 @@
                         </div>
                     </div>
                     <a href="{{ route('barang.index') }}" class="mt-4 inline-flex items-center text-gray-600 hover:text-gray-800">
-                        View details
+                        Tampilan Lengkap
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>
@@ -86,7 +86,7 @@
                         </div>
                     </div>
                     <a href="{{ route('pinjam.index') }}" class="mt-4 inline-flex items-center text-gray-600 hover:text-gray-800">
-                        View details
+                        Tampilan Lengkap
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>
@@ -95,9 +95,9 @@
             <!-- Recent Activity Section - Updated Design -->
             <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-6">
                 <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-semibold text-gray-800">Recent Activity - Peminjaman</h2>
+                    <h2 class="text-xl font-semibold text-gray-800">Aktivitas Terakhir - Peminjaman</h2>
                     @if(!$recentPinjams->isEmpty())
-                    <a href="{{ route('pinjam.index') }}" class="text-sm text-gray-600 hover:text-gray-800">View All</a>
+                    <a href="{{ route('pinjam.index') }}" class="text-sm text-gray-600 hover:text-gray-800">Liat Semua</a>
                     @endif
                 </div>
 

@@ -43,6 +43,7 @@ class ApiKembaliController extends Controller
             'gambar_barang' => $imagePath,
             'deskripsi' => $request->deskripsi, // Pastikan nama kolom di database sama
             'status' => false,
+            'handled_by' => auth()->id(),
         ]);
 
         return response()->json([

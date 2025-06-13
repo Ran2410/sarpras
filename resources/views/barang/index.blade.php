@@ -7,43 +7,6 @@
     <title>Barang Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-
-        .table-row-hover:hover {
-            background-color: #f9fafb;
-            transition: all 0.2s ease;
-        }
-
-        .avatar {
-            background-color: #f3f4f6;
-            transition: all 0.3s ease;
-        }
-
-        .avatar:hover {
-            background-color: #e5e7eb;
-        }
-
-        .modal-enter {
-            animation: modalFadeIn 0.3s ease-out;
-        }
-
-        @keyframes modalFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
 </head>
 
 <body class="bg-gray-50 text-gray-800">
@@ -63,16 +26,15 @@
                             </span>
                             Management Barang
                         </h1>
-                        <p class="text-sm text-gray-500 mt-1">Manage your inventory items</p>
                     </div>
                     <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
                         <div class="relative">
-                            <input type="text" id="Search" placeholder="Search..."
+                            <input type="text" id="Search" placeholder="Search barang..."
                                 class="py-2 pl-10 pr-4 w-full sm:w-64 rounded-lg border border-gray-200 focus:border-gray-300 focus:ring-1 focus:ring-gray-200 transition duration-200 text-sm"
                                 onkeyup="searchBarang()">
                             <i class="fa-solid fa-search absolute left-3 top-3 text-gray-400 text-sm"></i>
                         </div>
-                        <button onclick="openModal()"
+                        <button onclick="openAddModal()"
                             class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-lg transition duration-200 flex items-center justify-center text-sm shadow-sm">
                             <i class="fa-solid fa-plus mr-2"></i>Tambah Barang
                         </button>
@@ -81,18 +43,17 @@
 
                 <!-- Success Alert -->
                 @if (session('success'))
-                <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded-md shadow-sm flex items-start" role="alert">
-                    <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                <div class="bg-gray-50 border-l-4 border-gray-500 p-4 mb-6 rounded-md shadow-sm flex items-start" role="alert">
+                    <i class="fas fa-check-circle text-gray-500 mt-1 mr-3"></i>
                     <div>
-                        <p class="font-medium text-green-800">Success</p>
-                        <p class="text-sm text-green-600">{{ session('success') }}</p>
+                        <p class="font-medium text-gray-800">Success</p>
+                        <p class="text-sm text-gray-600">{{ session('success') }}</p>
                     </div>
                 </div>
                 @endif
 
                 <!-- Table Card -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                    <!-- Table Controls -->
                     @php
                     $options = [];
                     for ($i = 5; $i < $totalRows; $i +=5) {
@@ -121,10 +82,10 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stok</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kategori</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gambar</th>
                                 <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
@@ -159,16 +120,15 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                    <button onclick="editBarang({{ $barang->id }})"
-                                        class="text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 p-2 rounded-md transition duration-200">
+                                    <button onclick="openEditModal({{ $barang->id }})"
+                                        class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-1.5 px-3 rounded-md transition duration-200 inline-flex items-center border border-gray-200">
                                         <i class="fas fa-edit"></i>
-
                                     </button>
                                     <form action="{{ route('barang.destroy', $barang->id) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" onclick="return confirm('Are you sure?')"
-                                            class="text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 p-2 rounded-md transition duration-200">
+                                            class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-1.5 px-3 rounded-md transition duration-200 inline-flex items-center border border-gray-200">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>
@@ -189,46 +149,46 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
 
-              
+            <!-- Pagination -->
+            <div class="w-full flex justify-between mt-4">
+                {{ $barangs->appends([request('rows')])->links('vendor.pagination.custom') }}
+            </div>
     </div>
-     <!-- Pagination -->
-        <div class="w-full flex justify-beetwenmt-4">
-            {{ $barangs->appends([request('rows')])->links('vendor.pagination.custom') }}
-        </div>
     </main>
     </div>
 
-    <!-- Modal -->
-    <div id="modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center p-4 hidden z-50">
+    <!-- Add Modal -->
+    <div id="add-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center p-4 hidden z-50">
         <div class="bg-white rounded-xl shadow-lg w-full max-w-md modal-enter">
             <div class="p-5 border-b border-gray-100">
-                <h3 class="text-lg font-medium text-gray-800" id="modal-title">Tambah Barang</h3>
+                <h3 class="text-lg font-medium text-gray-800">Tambah Barang</h3>
             </div>
-            <form action="{{ route('barang.store') }}" method="POST" enctype="multipart/form-data" id="barang-form">
+            <form action="{{ route('barang.store') }}" method="POST" enctype="multipart/form-data" id="add-barang-form">
                 @csrf
                 <div class="p-5 space-y-4">
                     <div>
-                        <label for="nama_barang" class="block text-sm font-medium text-gray-700 mb-1">Nama Barang</label>
-                        <input type="text" name="nama_barang" id="nama_barang"
+                        <label for="add-nama_barang" class="block text-sm font-medium text-gray-700 mb-1">Nama Barang</label>
+                        <input type="text" name="nama_barang" id="add-nama_barang"
                             class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-gray-200 focus:border-gray-300 transition duration-200 text-sm">
                     </div>
 
                     <div>
-                        <label for="stok_barang" class="block text-sm font-medium text-gray-700 mb-1">Stok Barang</label>
-                        <input type="number" name="stok_barang" id="stok_barang"
+                        <label for="add-stok_barang" class="block text-sm font-medium text-gray-700 mb-1">Stok Barang</label>
+                        <input type="number" name="stok_barang" id="add-stok_barang"
                             class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-gray-200 focus:border-gray-300 transition duration-200 text-sm">
                     </div>
 
                     <div>
-                        <label for="image_barang" class="block text-sm font-medium text-gray-700 mb-1">Image Barang</label>
-                        <input type="file" name="image_barang" id="image_barang"
+                        <label for="add-image_barang" class="block text-sm font-medium text-gray-700 mb-1">Gambar Barang</label>
+                        <input type="file" name="image_barang" id="add-image_barang"
                             class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 transition duration-200">
                     </div>
 
                     <div>
-                        <label for="kategori_id" class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
-                        <select name="kategori_id" id="kategori_id"
+                        <label for="add-kategori_id" class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
+                        <select name="kategori_id" id="add-kategori_id"
                             class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-gray-200 focus:border-gray-300 transition duration-200 text-sm">
                             @foreach($kategoris as $kategori)
                             <option value="{{ $kategori->id }}">{{ $kategori->nama_kategori }}</option>
@@ -237,14 +197,69 @@
                     </div>
                 </div>
                 <div class="p-5 border-t border-gray-100 flex justify-end space-x-3">
-                    <button type="button" onclick="closeModal()"
+                    <button type="button" onclick="closeAddModal()"
                         class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200">
                         Cancel
                     </button>
                     <button type="submit"
                         class="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-lg hover:bg-gray-700 transition duration-200 flex items-center">
                         <i class="fas fa-plus mr-2"></i>
-                        <span id="modal-action">Add Barang</span>
+                        Tambah Barang
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="edit-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center p-4 hidden z-50">
+        <div class="bg-white rounded-xl shadow-lg w-full max-w-md modal-enter">
+            <div class="p-5 border-b border-gray-100">
+                <h3 class="text-lg font-medium text-gray-800">Edit Barang</h3>
+            </div>
+            <form action="" method="POST" enctype="multipart/form-data" id="edit-barang-form">
+                @csrf
+                @method('PUT')
+                <input type="hidden" name="id" id="edit-barang-id">
+                <div class="p-5 space-y-4">
+                    <div>
+                        <label for="edit-nama_barang" class="block text-sm font-medium text-gray-700 mb-1">Nama Barang</label>
+                        <input type="text" name="nama_barang" id="edit-nama_barang"
+                            class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-gray-200 focus:border-gray-300 transition duration-200 text-sm">
+                    </div>
+
+                    <div>
+                        <label for="edit-stok_barang" class="block text-sm font-medium text-gray-700 mb-1">Stok Barang</label>
+                        <input type="number" name="stok_barang" id="edit-stok_barang"
+                            class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-gray-200 focus:border-gray-300 transition duration-200 text-sm">
+                    </div>
+
+                    <div>
+                        <label for="edit-image_barang" class="block text-sm font-medium text-gray-700 mb-1">Gambar   Barang</label>
+                        <input type="file" name="image_barang" id="edit-image_barang"
+                            class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 transition duration-200">
+                        <div class="mt-2" id="current-image-container"></div>
+                    </div>
+
+                    <div>
+                        <label for="edit-kategori_id" class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
+                        <select name="kategori_id" id="edit-kategori_id"
+                            class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-1 focus:ring-gray-200 focus:border-gray-300 transition duration-200 text-sm">
+                            @foreach($kategoris as $kategori)
+                            <option value="{{ $kategori->id }}">{{ $kategori->nama_kategori }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="p-5 border-t border-gray-100 flex justify-end space-x-3">
+                    <button type="button" onclick="closeEditModal()"
+                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        class="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-lg hover:bg-gray-700 transition duration-200 flex items-center">
+                        <i class="fas fa-save mr-2"></i>
+                        Update Barang
                     </button>
                 </div>
             </form>
@@ -252,44 +267,45 @@
     </div>
 
     <script>
-        function openModal() {
-            document.getElementById('modal').classList.remove('hidden');
-            document.getElementById('modal-title').textContent = 'Tambah Barang';
-            document.getElementById('modal-action').textContent = 'Add Barang';
-            document.getElementById('barang-form').action = "{{ route('barang.store') }}";
-            document.getElementById('barang-form').reset();
-
-            // Remove any existing hidden _method input
-            const methodInput = document.querySelector('input[name="_method"]');
-            if (methodInput) {
-                methodInput.remove();
-            }
+        function openAddModal() {
+            document.getElementById('add-modal').classList.remove('hidden');
+            document.getElementById('add-barang-form').reset();
         }
 
-        function closeModal() {
-            document.getElementById('modal').classList.add('hidden');
+        function closeAddModal() {
+            document.getElementById('add-modal').classList.add('hidden');
         }
 
-        function editBarang(id) {
+        function openEditModal(id) {
             fetch(`/barang/${id}/edit`)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) throw new Error('Network error');
+                    return response.json();
+                })
                 .then(data => {
-                    document.getElementById('nama_barang').value = data.nama_barang;
-                    document.getElementById('stok_barang').value = data.stok_barang;
-                    document.getElementById('kategori_id').value = data.kategori_id;
-                    document.getElementById('modal-action').textContent = 'Update Barang';
-                    document.getElementById('modal-title').textContent = 'Edit Barang';
-                    document.getElementById('barang-form').action = `/barang/${id}`;
+                    console.log('Data received:', data);
 
-                    // Add method override for PUT
-                    const methodInput = document.createElement('input');
-                    methodInput.type = 'hidden';
-                    methodInput.name = '_method';
-                    methodInput.value = 'PUT';
-                    document.getElementById('barang-form').appendChild(methodInput);
+                    document.getElementById('edit-barang-id').value = data.id;
+                    document.getElementById('edit-nama_barang').value = data.nama_barang || '';
+                    document.getElementById('edit-stok_barang').value = data.stok_barang || 0;
+                    document.getElementById('edit-kategori_id').value = data.kategori_id || '';
 
-                    openModal();
+                    const imageContainer = document.getElementById('current-image-container');
+                    imageContainer.innerHTML = data.image_barang ?
+                        `<img src="/storage/${data.image_barang}" class="w-20 h-20 object-cover rounded-md">` :
+                        '<p class="text-gray-500">No image</p>';
+
+                    document.getElementById('edit-barang-form').action = `/barang/${data.id}`;
+                    document.getElementById('edit-modal').classList.remove('hidden');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Gagal memuat data barang');
                 });
+        }
+
+        function closeEditModal() {
+            document.getElementById('edit-modal').classList.add('hidden');
         }
 
         function searchBarang() {
@@ -298,13 +314,11 @@
             const rows = document.querySelectorAll('tbody tr');
 
             rows.forEach(row => {
-                // Skip jika row adalah placeholder "No barang found"
                 if (row.querySelector('.fa-box-open')) return;
 
                 const cells = row.querySelectorAll('td');
                 let found = false;
 
-                // Cari di semua kolom kecuali kolom Actions (kolom terakhir)
                 for (let i = 0; i < cells.length - 1; i++) {
                     const cell = cells[i];
                     if (cell.innerText.toLowerCase().includes(filter)) {
@@ -316,7 +330,6 @@
                 row.style.display = found ? '' : 'none';
             });
 
-            // Tampilkan pesan jika tidak ada hasil
             const noResultsRow = document.querySelector('tbody tr:first-child');
             if (noResultsRow && noResultsRow.querySelector('.fa-box-open')) {
                 const anyVisible = Array.from(rows).some(row => row.style.display !== 'none');

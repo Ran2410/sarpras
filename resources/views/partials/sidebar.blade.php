@@ -109,7 +109,7 @@
             <!-- Main Navigation -->
             <div class="px-6 py-2">
                 <div class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-4 px-3">
-                    Navigation
+                    Navigasi
                 </div>
                 <nav class="space-y-1">
                     <a href="{{ route('dashboard') }}"
@@ -174,9 +174,6 @@
                 </button>
             </form>
 
-            <div class="mt-4 text-xs text-center text-gray-400">
-                <p>© 2025 Admin System</p>
-            </div>
         </div>
     </aside>
 

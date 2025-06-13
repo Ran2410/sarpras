@@ -76,13 +76,13 @@
                     <table class="min-w-full divide-y divide-gray-200 compact-table">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th class="text-left">No</th>
-                                <th class="text-left">Barang</th>
-                                <th class="text-left">Peminjam</th>
-                                <th class="text-left">Jumlah</th>
-                                <th class="text-left">Status</th>
-                                <th class="text-left">Jatuh Tempo</th>
-                                <th class="text-left">Disetujui Oleh</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Barang</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peminjam</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jumlah</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jatoh Tempo</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Disetujui Oleh</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
